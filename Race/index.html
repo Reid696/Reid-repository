@@ -1,0 +1,658 @@
+<html>
+<head>
+
+	<!--Link a google fonts-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:ital,wght@1,900&display=swap" rel="stylesheet">
+	<style>
+
+	/* Aplica la fuente importada de goolge fonts al body */
+	body{
+		font-family: 'Press Start 2P', cursive;
+		line-height: 1.5;
+	}
+
+	/* H1 a 42px y sombra */
+	h1{
+		text-transform: uppercase;
+		font-family: 'Press Start 2P', cursive;
+		font-weight: 900;
+		font-size: 42px;
+  		text-shadow: 0.5vmin 0.5vmin 0 #9b1512;
+  		color: white;
+	}
+
+	/* Caja del juego a 1000px, el mismo ancho que la funcion para calcular la distancia de la carrera*/
+	#carrera{
+		background-color: white;
+		width: 1000px;
+	    margin-right: auto;
+	    margin-left: auto;
+	}
+
+	/* Imagen de fondo creada por mi para el juego*/
+	#carretera{
+		background-image: url("./img/carretera2.jpg");
+		width: 100%;
+		height: 170px;
+		background-repeat: no-repeat; /* Do not repeat the image */
+  		background-size: cover;
+		box-sizing: border-box;
+		margin:  40px 0;
+	}
+
+	.car{
+		display: block;
+		position: relative;
+	}
+	/* Aplica tamaño a los coches y su margen izq 0 y el superior para que se coloquen correctamente en la carretera*/
+	#car1{
+		padding-top: 8px;
+		margin-left: 0px;
+		width: 25px;
+	}
+
+	#car2{
+		padding-top: 4px;
+		margin-left: 0px;
+		width: 25px;
+	}
+
+	#car3{
+		padding-top: 4px;
+		margin-left: 0px;
+		width: 25px;
+	}
+
+	#car4{
+		padding-top: 4px;
+		margin-left: 0px;
+		width: 25px;
+	}
+
+	.resultadoInfo{
+		font-size: 2em;
+		font-weight: bold;
+		color: white;
+		width: 50%;
+		float: left;
+		text-align: center;
+	}
+	/* Clase para colocar el titulo encima del border de las section*/
+	.con-titulo{
+    display: table;
+    padding: 0 0.5rem;
+    margin: -2rem 0 1rem;
+    font-size: 1rem;
+    background-color: #fff;
+	}
+
+	.resultadoInfo span{
+		display: block;
+		font-weight: normal;
+		font-size: 1em;
+		color: white;
+	}
+	/* Clase para aplicar estilo retro a las div o section*/
+	.retro-container{
+		padding: 1.5rem 2rem;
+	    border-color: black;
+	    border-style: solid;
+	    border-width: 4px;
+	    margin-bottom: 1rem;
+	    background-color: white;
+	}
+
+	#container-carrera{
+		background-color: #498702;
+		padding: 1.5rem 0;
+		text-align: center;
+	}
+	/* Clase para aplicar display flex algunos elementos*/
+	.flex{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+	.flex-justify-evenly{
+		justify-content: space-evenly;
+	}
+
+	.flex-justify-between{
+		justify-content: space-between;
+	}
+
+	/* Un margin left para los iconos de trofeo*/
+	#trofeo1, #trofeo2, #trofeo3, #trofeo4 {
+		margin-left: 30px;
+	}
+	/* Clase para hacer los botones o desplegables, estilo retro*/
+	.retro-select{
+	border-image-slice: 2;
+    border-image-width: 2;
+    border-image-repeat: stretch;
+    border-image-outset: 2;
+    width: 100%;
+    border-radius: 0;
+    outline-color: #e7e7e7;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+	}
+
+	.retro-bold{
+		font-weight: bold;
+	}
+	/* Clase para hacer los botones o desplegables, estilo retro*/
+	.estilo-nes{
+	font-family: 'Press Start 2P', cursive;
+	border-style: solid;
+	border-color: black;
+    border-width: 4px;	
+
+	border-image-slice: 2;
+    border-image-width: 2;
+    border-image-source: url("./img/border.svg");
+    border-image-repeat: stretch;
+   
+    border-image-outset: 2;
+    position: relative;
+    display: inline-block;
+    padding: 6px 8px;
+    margin: 4px;
+    text-align: center;
+    vertical-align: middle;
+	}
+	/* Colores botones y para el hover*/
+	#correr{
+    background-color: #92cc41;
+	}
+
+	#correr:hover{
+	background-color: #52cb2d;
+    box-shadow: inset -4px -4px #4aa52e;	
+	}
+
+	#reiniciar{
+    background-color: #e76e55;
+	}
+
+	#reiniciar:hover {
+	background-color: #ce191c;
+    box-shadow: inset -4px -4px #8c2022;
+}
+
+	.clearfix:after{
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	#desplegable{
+		margin-left: 30px;
+	}
+	.img-car{
+		width: 15%;
+	}
+	
+	</style>
+</head>
+
+<body id="carrera">
+
+		<!--Section desplegable para elegir participantes-->
+		<div class="retro-select">
+    		<section class="retro-container">
+	            <h2 class="con-titulo">Empezar aquí</h2>
+	            <div class="flex">
+	            	<img src="./img/happy.png" style="width: 50px; margin-right: 20px;">
+		            <div class="retro-bocadillo">"<span class="retro-bold">Hola!!</span> Elige el numero de coches para la carrera:"</div>
+
+					<!--Desplegable, se coge el value con jquery para elegir el numero de participantes-->
+		            <select id="desplegable" class="estilo-nes">
+		            	<option value="">-- Selecciona --</option>
+		                <option value="1">Un participantes</option>
+		                <option value="2">Dos participantes</option>
+		                <option value="3">Tres participantes</option>
+		                <option value="4">Cuatro participantes</option>
+		            </select>  
+	        	</div>
+        	</section>
+		</div>
+	</section>
+
+	<!---Section carretera + titulo juego-->
+	<section class="retro-container" id="container-carrera">
+		<div class="flex flex-justify-evenly">
+			<img src="./img/giphy.webp" alt="bandera" style="width:80px;">
+			<!--Titular h1 del juego-->
+			<h1>la gran carrera</h1>
+			<img src="./img/giphy.webp" alt="bandera" style="width:80px;">
+		</div>
+		<!--Botones Correr i reiniciar-->
+		<input type="button" value="Correr" id="correr" class="estilo-nes">
+		<input type="button" value="Reiniciar" id="reiniciar" class="estilo-nes">
+		
+		<!--Contenedor carretera & imagenes coche-->
+		<div id="carretera">
+			<img src="" id="car1" class="car" style="display:none;">
+			<img src="" id="car2" class="car" style="display:none;">
+			<img src="" id="car3" class="car" style="display:none;">
+			<img src="" id="car4" class="car" style="display:none;">
+		</div>
+	</section>
+
+	<!--Informacion: Resultado de la carrera-->
+	<section class="retro-container">
+	<h2 class="con-titulo">Resultado</h2>
+	
+	<div id="resultado" class="clearfix">
+
+		<!--Dividido en secciones para cada coche: Coche 1-->
+		<section id="resultadoInfo1" class="retro-container flex flex-justify-between">
+			<div>
+				Coche 1 :
+				<!---Se introduce el texto Gana o pierde en el span-->
+				<span></span>
+				<!---Se introduce el link en el src, segun gane o pierda-->
+				<img id="trofeo1" src="">
+				<img id="cruz1" src=""> 
+			</div>
+			<img src="./img/greencar.png" class="img-car">
+		</section>
+		<!--Dividido en secciones para cada coche: Coche 2-->
+		<section id="resultadoInfo2" class="retro-container flex flex-justify-between">
+			<div>
+				Coche 2 :
+				<!---Se introduce el texto Gana o pierde en el span-->
+				<span></span>
+				<!---Se introduce el link en el src, segun gane o pierda-->
+				<img id="trofeo2" src="">
+				<img id="cruz2" src="">
+			</div>
+			<img src="./img/redcar.png" class="img-car">
+		</section>
+		<!--Dividido en secciones para cada coche: Coche 3-->
+		<section id="resultadoInfo3" class="retro-container flex flex-justify-between">
+			<div>
+				Coche 3 :
+				<!---Se introduce el texto Gana o pierde en el span-->
+				<span></span>
+				<!---Se introduce el link en el src, segun gane o pierda-->
+				<img id="trofeo3" src="">
+				<img id="cruz3" src="">
+			</div>
+			<img src="./img/bluecar.png" class="img-car">
+		</section>
+		<!--Dividido en secciones para cada coche: Coche 4-->
+		<section id="resultadoInfo4" class="retro-container flex flex-justify-between">
+			<div>
+				Coche 4 :
+				<!---Se introduce el texto Gana o pierde en el span-->
+				<span></span>
+				<!---Se introduce el link en el src, segun gane o pierda-->
+				<img id="trofeo4" src="">
+				<img id="cruz4" src="">
+			</div>
+			<img src="./img/purplecar.png" class="img-car">
+		</section>
+
+
+	</div>
+	</section>
+	
+</body>
+	
+	<!--Scripts: Api google-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+	<!--Scripts: Funciones para la carrera--> 
+	<script>
+
+
+		$(document).ready(function(){
+
+			$("#reiniciar").hide();
+
+			//Seleccion del valor del numero de participantes en el desplegable
+		    $("select#desplegable").change(function(){
+		        var participantes = $(this).children("option:selected").val();
+		        
+		        //Se crea un array coches, con el link de sus imagenes
+			    var arrayCoches = [];
+				var imgCar1 = "./img/car1.png";
+		        var imgCar2 = "./img/car2.png";
+		        var imgCar3 = "./img/car3.png";
+		        var imgCar4 = "./img/car4.png";
+
+		        //Obtenemos el largo del coche 	
+				let carWidth = $("#car1").width();
+
+				//Obtenemos el largo de la carrera, restando el width de la ventana al del coche
+				//let carreteraWidth = $(window).width() - carWidth;
+				let carreteraWidth = 992 - carWidth;
+						
+				//Genera numero aleatorio
+				let numAleatorio1 = Math.floor(Math.random() * 5000 + 1);
+				let numAleatorio2 = Math.floor(Math.random() * 5000 + 1);
+				let numAleatorio3 = Math.floor(Math.random() * 5000 + 1);
+				let numAleatorio4 = Math.floor(Math.random() * 5000 + 1);
+
+
+		        // CONDICION 1 PARTICIPANTES: MUESTRA COCHES + FUNCION CORRER
+		        if (participantes==1) {
+		        	
+		        	$("#car1").show();
+		        	$("#car1").attr("src",imgCar1);
+
+			        //Hide para las section de los coches 2, 3 y 4
+			        $("#resultadoInfo2").hide();
+			        $("#resultadoInfo3").hide();
+			        $("#resultadoInfo4").hide();
+
+			        $("#correr").click(function(){
+
+			        	$("#correr").hide();
+			        	$("#reiniciar").show();
+					
+						//Funcion para comprobar si la carrera ha sido completada
+						function carreraCompletada(){
+							if(carreraFinalizada == false){
+								carreraFinalizada = true;
+							} else{
+								place = "Pierde";
+								trofeo = "";
+								cruz = "./img/pierde.png";
+
+							}
+						}
+						
+						//Variables iniciales
+						let carreraFinalizada = false;
+						
+						let place = "Gana";
+						let trofeo = "./img/trofeo.png";
+						let cruz = "";
+
+						
+
+						//Funcion animate de los coches
+						$("#car1").animate({
+										left: carreteraWidth
+									}, numAleatorio1, function(){
+										//animation complete
+										carreraCompletada();
+										
+										$("#resultadoInfo1 span").text( place );
+										$("#trofeo1").attr("src",trofeo);
+										$("#cruz1").attr("src",cruz);
+
+									});
+						});
+
+		        }
+
+		       	// CONDICION 2 PARTICIPANTES: MUESTRA COCHES + FUNCION CORRER
+		        else if (participantes==2) {
+
+		        	//Hide para las section de los coches 3 y 4
+			        $("#resultadoInfo3").hide();
+			        $("#resultadoInfo4").hide();
+
+					//Añade Src de la imagen del coche, almacenado en el array y lo muestra
+		        	$("#car1").show();
+		        	$("#car1").attr("src",imgCar1);
+
+					$("#car2").show();
+					$("#car2").attr("src",imgCar2);
+
+
+		        	// Funcion empezar carrera al hacer click
+					$("#correr").click(function(){
+
+			        	$("#correr").hide();
+			        	$("#reiniciar").show();
+					
+						//Funcion para comprobar si la carrera ha sido completada
+						function carreraCompletada(){
+							if(carreraFinalizada == false){
+								carreraFinalizada = true;
+							} else{
+								place = "Pierde";
+								trofeo = "";
+								cruz = "./img/pierde.png";
+
+							}
+						}
+						
+						//Variables iniciales
+						let carreraFinalizada = false;
+						
+						let place = "Gana";
+						let trofeo = "./img/trofeo.png";
+						let cruz = "";
+
+						
+
+						//Funcion animate de los coches
+						$("#car1").animate({
+										left: carreteraWidth
+									}, numAleatorio1, function(){
+										//animation complete
+										carreraCompletada();
+										
+										$("#resultadoInfo1 span").text( place );
+										$("#trofeo1").attr("src",trofeo);
+										$("#cruz1").attr("src",cruz);
+
+									});
+						$("#car2").animate({
+										left: carreteraWidth
+									}, numAleatorio2, function(){
+										//animation complete
+										carreraCompletada();
+										
+										$("#resultadoInfo2 span").text( place );
+										$("#trofeo2").attr("src",trofeo);
+										$("#cruz2").attr("src",cruz);
+									});
+					});
+
+				}
+
+		        // CONDICION 3 PARTICIPANTES: MUESTRA COCHES + FUNCION CORRER	
+				else if (participantes==3) {
+
+					//Hide para las section del coche 4
+			        $("#resultadoInfo4").hide();
+
+					//Añade Src de la imagen del coche, almacenado en el array y lo muestra
+					$("#car1").attr("src",imgCar1);
+					$("#car1").show();
+
+					$("#car2").attr("src",imgCar2);
+					$("#car2").show();
+
+					$("#car3").attr("src",imgCar3);
+					$("#car3").show();
+
+					// Funcion empezar carrera al hacer click
+					$("#correr").click(function(){
+
+			        	$("#correr").hide();
+			        	$("#reiniciar").show();
+					
+						//Funcion para comprobar si la carrera ha sido completada
+						function carreraCompletada(){
+							if(carreraFinalizada == false){
+								carreraFinalizada = true;
+							} else{
+								place = "Pierde";
+								trofeo = "";
+								cruz = "./img/pierde.png";
+
+							}
+						}
+						
+						//Variables iniciales
+						let carreraFinalizada = false;
+						
+						let place = "Gana";
+						let trofeo = "./img/trofeo.png";
+						let cruz = "";
+
+						
+
+						//Funcion animate de los coches
+						$("#car1").animate({
+										left: carreteraWidth
+									}, numAleatorio1, function(){
+										//animation complete
+										carreraCompletada();
+										
+										$("#resultadoInfo1 span").text( place );
+										$("#trofeo1").attr("src",trofeo);
+										$("#cruz1").attr("src",cruz);
+
+									});
+						$("#car2").animate({
+										left: carreteraWidth
+									}, numAleatorio2, function(){
+										//animation complete
+										carreraCompletada();
+										
+										$("#resultadoInfo2 span").text( place );
+										$("#trofeo2").attr("src",trofeo);
+										$("#cruz2").attr("src",cruz);
+
+
+									});
+						$("#car3").animate({
+										left: carreteraWidth
+									}, numAleatorio3, function(){
+										//animation complete
+										carreraCompletada();
+										
+										$("#resultadoInfo3 span").text( place );
+										$("#trofeo3").attr("src",trofeo);
+										$("#cruz3").attr("src",cruz);
+
+
+									});
+					});
+
+				}
+				// CONDICION 4 PARTICIPANTES: MUESTRA COCHES + FUNCION CORRER		
+				else if (participantes==4) {
+
+					//Añade Src de la imagen del coche, almacenado en el array y lo muestra
+					$("#car1").show();
+					$("#car1").attr("src",imgCar1);
+
+					$("#car2").show();
+					$("#car2").attr("src",imgCar2);
+
+					$("#car3").show();
+					$("#car3").attr("src",imgCar3);
+
+					$("#car4").show();
+					$("#car4").attr("src",imgCar4);
+
+					// Funcion empezar carrera al hacer click
+					$("#correr").click(function(){
+
+			        	$("#correr").hide();
+			        	$("#reiniciar").show();
+					
+						//Funcion para comprobar si la carrera ha sido completada
+						function carreraCompletada(){
+							if(carreraFinalizada == false){
+								carreraFinalizada = true;
+							} else{
+								place = "Pierde";
+								trofeo = "";
+								cruz = "./img/pierde.png";
+
+							}
+						}
+						
+						//Variables iniciales
+						let carreraFinalizada = false;
+						
+						let place = "Gana";
+						let trofeo = "./img/trofeo.png";
+						let cruz = "";
+
+						
+
+						//Funcion animate de los coches
+						$("#car1").animate({
+										left: carreteraWidth
+									}, numAleatorio1, function(){
+										//animation complete
+										carreraCompletada();
+										
+										$("#resultadoInfo1 span").text( place );
+										$("#trofeo1").attr("src",trofeo);
+										$("#cruz1").attr("src",cruz);
+
+									});
+						$("#car2").animate({
+										left: carreteraWidth
+									}, numAleatorio2, function(){
+										//animation complete
+										carreraCompletada();
+										
+										$("#resultadoInfo2 span").text( place );
+										$("#trofeo2").attr("src",trofeo);
+										$("#cruz2").attr("src",cruz);
+
+
+									});
+						$("#car3").animate({
+										left: carreteraWidth
+									}, numAleatorio3, function(){
+										//animation complete
+										carreraCompletada();
+										
+										$("#resultadoInfo3 span").text( place );
+										$("#trofeo3").attr("src",trofeo);
+										$("#cruz3").attr("src",cruz);
+
+
+									});
+						$("#car4").animate({
+										left: carreteraWidth
+									}, numAleatorio4, function(){
+										//animation complete
+										carreraCompletada();
+										
+										$("#resultadoInfo4 span").text( place );
+										$("#trofeo4").attr("src",trofeo);
+										$("#cruz4").attr("src",cruz);
+
+
+									});
+					});
+				}
+				else{alert("Error")}
+				
+				$("#reiniciar").click(function(){
+						$(".car").css("left", "0");
+						$(".resultadoInfo span").text("");
+						comprobarTerminado		});
+
+			});
+
+		});
+ 
+
+
+
+
+
+
+
+</script>
+</html>
